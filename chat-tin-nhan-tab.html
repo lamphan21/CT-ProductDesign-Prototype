@@ -118,6 +118,24 @@
       color: var(--text-primary);
       line-height: 24px;
     }
+    .top-nav-back {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background .15s;
+    }
+    .top-nav-back:hover { background: var(--bg-secondary); }
+    .top-nav-back svg { width: 24px; height: 24px; display: block; }
     .top-nav-actions {
       position: absolute;
       right: 8px;
@@ -819,6 +837,12 @@
 
   <!-- ── Top navigation ─────────────────────────────────── -->
   <div class="top-nav">
+    <a class="top-nav-back" href="index.html" aria-label="Quay lại">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M15 19l-7-7 7-7" stroke="#222" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
     <span class="top-nav-title">Liên hệ</span>
     <div class="top-nav-actions">
       <!-- Search-outline icon -->
