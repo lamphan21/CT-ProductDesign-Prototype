@@ -712,39 +712,11 @@
       overflow: hidden;
     }
 
-    /* Yellow left accent bar */
-    .tooltip-accent {
-      width: 4px;
-      background: var(--bg-chotot);
-      flex-shrink: 0;
-      animation: accentPulse 2s ease-in-out 1.6s infinite;
-    }
-
-    /* Icon area */
-    .tooltip-icon {
-      width: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      padding: 0 4px 0 12px;
-    }
-    .tooltip-icon-circle {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255,212,0,.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-
     /* Text body */
     .tooltip-body {
       flex: 1;
       min-width: 0;
-      padding: 14px 0 14px 10px;
+      padding: 14px 0 14px 16px;
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -764,29 +736,6 @@
       font-weight: 500;
       color: rgba(255,255,255,.65);
       line-height: 18px;
-    }
-
-    /* CTA button */
-    .tooltip-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 8px;
-      height: 28px;
-      padding: 0 10px;
-      background: var(--bg-chotot);
-      border-radius: var(--radius-pill);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      align-self: flex-start;
-    }
-    .tooltip-cta span {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 18px;
-      white-space: nowrap;
     }
 
     /* Close button */
@@ -1153,21 +1102,10 @@
   <!-- ── Tooltip notification ───────────────────────────────── -->
   <div class="tooltip-wrap" id="tooltip" role="status" aria-live="polite">
     <div class="tooltip-card">
-      <!-- Yellow accent bar -->
-      <div class="tooltip-accent"></div>
-
-      <!-- Sparkle / people icon -->
-      <div class="tooltip-icon">
-        <div class="tooltip-icon-circle">✨</div>
-      </div>
-
-      <!-- Text + CTA -->
+      <!-- Text body -->
       <div class="tooltip-body">
-        <span class="tooltip-title">Bạn có <em>3 khách mới</em></span>
+        <span class="tooltip-title">Có <em>3 khách mới</em></span>
         <span class="tooltip-subtitle">Hãy xem thông tin và tư vấn khách nhé</span>
-        <a class="tooltip-cta" href="chat-khach-tab.html">
-          <span>Xem ngay →</span>
-        </a>
       </div>
 
       <!-- Close button -->
