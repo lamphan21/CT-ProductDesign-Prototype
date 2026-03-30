@@ -211,17 +211,53 @@
       line-height: 16px;
     }
 
+    /* ── Stats Banner ───────────────────────────────────────── */
+    .stats-banner {
+      background: var(--bg-primary);
+      display: flex;
+      padding: 16px 0 12px;
+      margin: 0 16px;
+      border-bottom: 1px solid var(--border-thin);
+    }
+    .stat-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .stat-item + .stat-item {
+      border-left: 1px solid var(--border-thin);
+    }
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 28px;
+    }
+    .stat-value.highlight { color: #f07800; }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 16px;
+    }
+
     /* ── Filter Row ─────────────────────────────────────────── */
     .filter-row {
       background: var(--bg-primary);
-      padding: 16px;
+      padding: 12px 16px 12px;
       display: flex;
       align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
       position: sticky;
       top: 52px; /* tab-switcher-wrap height: 12px padding + 40px tab */
       z-index: 9;
       box-shadow: 0 2px 8px rgba(34,34,34,.06);
     }
+    .filter-row::-webkit-scrollbar { display: none; }
     .filter-chip {
       background: var(--bg-primary);
       border: var(--stroke-divider) solid var(--border-regular);
@@ -1161,6 +1197,118 @@
       border-color: var(--border-black);
     }
 
+    /* ── Calendar chip icon ─────────────────────────────────── */
+    .chip-icon {
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       CALENDAR BOTTOM SHEET
+    ══════════════════════════════════════════════════════════ */
+    .cal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(34,34,34,.5);
+      z-index: 220;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .cal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .cal-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--bg-primary);
+      border-radius: 20px 20px 0 0;
+      z-index: 221;
+      transform: translateY(100%);
+      transition: transform .4s cubic-bezier(.32,.72,0,1);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .cal-sheet.open { transform: translateY(0); }
+
+    .cal-handle {
+      width: 36px; height: 4px;
+      background: var(--border-regular);
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+    .cal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 16px 8px;
+    }
+    .cal-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .cal-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: transparent; border: none;
+    }
+    .cal-close:active { background: var(--bg-secondary); }
+
+    .cal-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px 12px;
+    }
+    .cal-month-label {
+      font-size: 15px; font-weight: 600; color: var(--text-primary);
+    }
+    .cal-arrow {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: transparent; display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .cal-arrow:active { background: var(--bg-secondary); }
+
+    .cal-grid {
+      padding: 0 12px;
+    }
+    .cal-weekdays {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 4px;
+    }
+    .cal-weekday {
+      text-align: center; font-size: 12px; font-weight: 600;
+      color: var(--text-tertiary); line-height: 32px;
+    }
+    .cal-days {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 400; color: var(--text-primary);
+      border-radius: 50%; cursor: pointer; border: none; background: transparent;
+    }
+    .cal-day:hover { background: var(--bg-secondary); }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.today {
+      font-weight: 700; color: #f07800;
+    }
+    .cal-day.selected {
+      background: var(--bg-inverted);
+      color: var(--text-blank);
+      font-weight: 700;
+    }
+    .cal-day.other-month { color: var(--text-tertiary); }
+
+    .cal-footer {
+      padding: 16px;
+      display: flex; gap: 8px;
+    }
+    .cal-reset-btn {
+      flex: 1; height: 44px; border-radius: var(--radius-pill);
+      border: 1px solid var(--border-regular); background: transparent;
+      font-size: 15px; font-weight: 600; color: var(--text-primary);
+      cursor: pointer;
+    }
+    .cal-apply-btn {
+      flex: 2; height: 44px; border-radius: var(--radius-pill);
+      border: none; background: var(--bg-chotot);
+      font-size: 15px; font-weight: 700; color: var(--text-on-bg);
+      cursor: pointer;
+    }
+    .cal-apply-btn:active { opacity: .85; }
+
     /* Backdrop */
     .bs-backdrop {
       position: fixed;
@@ -1450,6 +1598,22 @@
       </div>
     </div>
 
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+      <div class="stat-item">
+        <span class="stat-value highlight" id="stat-today">5</span>
+        <span class="stat-label">Hôm nay</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-month">38</span>
+        <span class="stat-label">Tháng này</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-year">214</span>
+        <span class="stat-label">Năm nay</span>
+      </div>
+    </div>
+
     <!-- Filter Row -->
     <div class="filter-row">
       <div class="filter-chip" id="filter-chip" onclick="openSheet()">
@@ -1459,6 +1623,14 @@
             <path d="M1 1l4.5 4L10 1" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
+      </div>
+      <div class="filter-chip" id="date-chip" onclick="openCalSheet()">
+        <div class="chip-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M7.14286 7.90176H16.7812M6.48512 2.4375V4.07698M17.3125 2.4375V4.07678M20.5 7.07678L20.5 18.5625C20.5 20.2194 19.1569 21.5625 17.5 21.5625H6.5C4.84315 21.5625 3.5 20.2194 3.5 18.5625V7.07678C3.5 5.41992 4.84315 4.07678 6.5 4.07678H17.5C19.1569 4.07678 20.5 5.41992 20.5 7.07678Z" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span id="date-chip-label">Theo ngày</span>
       </div>
     </div>
 
@@ -2022,6 +2194,49 @@
      BOTTOM SHEET — Khách theo tin đăng
 ══════════════════════════════════════════════════════════ -->
 
+<!-- Calendar Backdrop + Sheet -->
+<div class="cal-backdrop" id="cal-backdrop" onclick="closeCalSheet()"></div>
+<div class="cal-sheet" id="cal-sheet">
+  <div class="cal-handle"></div>
+  <div class="cal-header">
+    <span class="cal-title">Chọn ngày</span>
+    <button class="cal-close" onclick="closeCalSheet()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6l12 12" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="cal-nav">
+    <button class="cal-arrow" onclick="calPrevMonth()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18l-6-6 6-6" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <span class="cal-month-label" id="cal-month-label">Tháng 3, 2026</span>
+    <button class="cal-arrow" onclick="calNextMonth()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M9 18l6-6-6-6" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="cal-grid">
+    <div class="cal-weekdays">
+      <div class="cal-weekday">CN</div>
+      <div class="cal-weekday">T2</div>
+      <div class="cal-weekday">T3</div>
+      <div class="cal-weekday">T4</div>
+      <div class="cal-weekday">T5</div>
+      <div class="cal-weekday">T6</div>
+      <div class="cal-weekday">T7</div>
+    </div>
+    <div class="cal-days" id="cal-days"></div>
+  </div>
+  <div class="cal-footer">
+    <button class="cal-reset-btn" onclick="calReset()">Bỏ chọn</button>
+    <button class="cal-apply-btn" onclick="calApply()">Áp dụng</button>
+  </div>
+</div>
+
 <!-- Backdrop -->
 <div class="bs-backdrop" id="bs-backdrop" onclick="closeSheet()"></div>
 
@@ -2426,6 +2641,107 @@
   }, { passive: true });
   custSheet.addEventListener('touchend', e => {
     if (e.changedTouches[0].clientY - custStartY > 80) closeCustSheet();
+  }, { passive: true });
+
+  /* ── Calendar Sheet ──────────────────────────────────────── */
+  const calBackdrop   = document.getElementById('cal-backdrop');
+  const calSheet      = document.getElementById('cal-sheet');
+  const calMonthLabel = document.getElementById('cal-month-label');
+  const calDaysEl     = document.getElementById('cal-days');
+  const dateChip      = document.getElementById('date-chip');
+  const dateChipLabel = document.getElementById('date-chip-label');
+
+  const today = new Date();
+  let calYear  = today.getFullYear();
+  let calMonth = today.getMonth(); // 0-indexed
+  let calSelected = null; // { year, month, day }
+  let calPending  = null; // temp selection while sheet open
+
+  const VI_MONTHS = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+                     'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+
+  function renderCalGrid() {
+    calMonthLabel.textContent = `${VI_MONTHS[calMonth]}, ${calYear}`;
+    const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+    let html = '';
+    // Empty cells before first day
+    for (let i = 0; i < firstDay; i++) {
+      html += `<div class="cal-day empty"></div>`;
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isToday = (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear());
+      const isSel   = calPending && calPending.day === d && calPending.month === calMonth && calPending.year === calYear;
+      let cls = 'cal-day';
+      if (isToday) cls += ' today';
+      if (isSel)   cls += ' selected';
+      html += `<div class="${cls}" onclick="calSelectDay(${d})">${d}</div>`;
+    }
+    calDaysEl.innerHTML = html;
+  }
+
+  function calSelectDay(d) {
+    calPending = { year: calYear, month: calMonth, day: d };
+    renderCalGrid();
+  }
+
+  function calPrevMonth() {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalGrid();
+  }
+  function calNextMonth() {
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalGrid();
+  }
+
+  function openCalSheet() {
+    // Reset pending to currently selected
+    calPending = calSelected ? { ...calSelected } : null;
+    // Reset view to today's month or selected month
+    calYear  = calPending ? calPending.year  : today.getFullYear();
+    calMonth = calPending ? calPending.month : today.getMonth();
+    renderCalGrid();
+    calBackdrop.classList.add('open');
+    calSheet.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCalSheet() {
+    calBackdrop.classList.remove('open');
+    calSheet.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function calReset() {
+    calSelected = null;
+    calPending  = null;
+    dateChipLabel.textContent = 'Theo ngày';
+    dateChip.classList.remove('selected');
+    renderCalGrid();
+    closeCalSheet();
+    // Show loading
+    loadingEl.classList.add('show');
+    setTimeout(() => loadingEl.classList.remove('show'), 1000);
+  }
+  function calApply() {
+    if (!calPending) { closeCalSheet(); return; }
+    calSelected = { ...calPending };
+    const dd = String(calSelected.day).padStart(2,'0');
+    const mm = String(calSelected.month + 1).padStart(2,'0');
+    dateChipLabel.textContent = `${dd}/${mm}/${calSelected.year}`;
+    dateChip.classList.add('selected');
+    closeCalSheet();
+    // Show 1s loading
+    loadingEl.classList.add('show');
+    setTimeout(() => loadingEl.classList.remove('show'), 1000);
+  }
+
+  // Swipe-down to dismiss calendar sheet
+  let calStartY = 0;
+  calSheet.addEventListener('touchstart', e => { calStartY = e.touches[0].clientY; }, { passive: true });
+  calSheet.addEventListener('touchend',   e => {
+    if (e.changedTouches[0].clientY - calStartY > 80) closeCalSheet();
   }, { passive: true });
 </script>
 </body>
