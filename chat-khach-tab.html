@@ -27,6 +27,7 @@
       --text-link:     #306bd9;
       --text-on-bg:    #222222;
       /* Border */
+      --border-black:  #222222;
       --border-thin:   #e8e8e8;
       --border-regular:#dddddd;
       --border-divider:#f4f4f4;
@@ -1155,6 +1156,10 @@
     /* Clickable filter chip */
     .filter-chip { cursor: pointer; user-select: none; }
     .filter-chip:active { opacity: .75; }
+    .filter-chip.selected {
+      background: var(--bg-secondary);
+      border-color: var(--border-black);
+    }
 
     /* Backdrop */
     .bs-backdrop {
@@ -2162,12 +2167,22 @@
     document.body.style.overflow = '';
   }
 
+  const filterChip = document.getElementById('filter-chip');
+  const defaultLabel = chipLabel.textContent.trim();
+
   function selectItem(el) {
     // Update radio selection inside sheet
     document.querySelectorAll('.bs-item').forEach(i => i.classList.remove('selected'));
     el.classList.add('selected');
 
     const newLabel = el.dataset.label;
+
+    // Mark chip as selected (DS "Select" state) unless it's the default
+    if (newLabel && newLabel !== defaultLabel) {
+      filterChip.classList.add('selected');
+    } else {
+      filterChip.classList.remove('selected');
+    }
 
     // Close sheet → show loading on list → update chip after 1 s
     closeSheet();
