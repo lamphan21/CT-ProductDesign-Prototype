@@ -1439,19 +1439,12 @@
       line-height: 20px;
     }
 
-    /* Radio control */
-    .bs-radio {
+    /* Checkbox control */
+    .bs-checkbox {
       flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .bs-radio-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
       border: 1.5px solid var(--border-regular);
       background: #fff;
       display: flex;
@@ -1459,18 +1452,48 @@
       justify-content: center;
       transition: border-color .15s, background .15s;
     }
-    .bs-item.selected .bs-radio-circle {
-      border-color: var(--bg-chotot);
-      background: var(--bg-chotot);
+    .bs-item.selected .bs-checkbox {
+      border-color: var(--border-black);
+      background: var(--border-black);
     }
-    .bs-item.selected .bs-radio-circle::after {
+    .bs-item.selected .bs-checkbox::after {
       content: '';
       display: block;
-      width: 10px;
+      width: 11px;
       height: 6px;
-      border-left: 2px solid #222;
-      border-bottom: 2px solid #222;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
       transform: rotate(-46deg) translate(1px, -1px);
+    }
+
+    /* Footer buttons */
+    .bs-footer {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px 20px;
+      border-top: 1px solid var(--border-thin);
+      flex-shrink: 0;
+    }
+    .bs-btn {
+      flex: 1;
+      height: 44px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity .15s;
+    }
+    .bs-btn:active { opacity: .8; }
+    .bs-btn-cancel {
+      background: #fff;
+      border: 1.5px solid var(--border-regular);
+      color: var(--text-primary);
+    }
+    .bs-btn-apply {
+      background: var(--bg-chotot);
+      border: none;
+      color: var(--text-primary);
     }
 
     /* ── Skeleton loading ───────────────────────────────────── */
@@ -2377,7 +2400,7 @@
   <div class="bs-body">
 
     <!-- "Tất cả tin đăng" (selected by default) -->
-    <div class="bs-item selected" data-label="Khách theo tin đăng" onclick="selectItem(this)">
+    <div class="bs-item selected" data-label="Khách theo tin đăng" data-all onclick="toggleItem(this)">
       <div class="bs-thumb" style="background:var(--bg-secondary);">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#595959" stroke-width="1.5"/>
@@ -2389,11 +2412,11 @@
       <div class="bs-item-info">
         <span class="bs-item-title">Tất cả tin đăng</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 1 -->
-    <div class="bs-item" data-label="MASTERI THẢO ĐIỀN 2PN" onclick="selectItem(this)">
+    <div class="bs-item" data-label="MASTERI THẢO ĐIỀN 2PN" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/771a89d9-75ce-41dd-b6a1-48c20bb449d9" alt="" />
       </div>
@@ -2401,11 +2424,11 @@
         <span class="bs-item-title">BÁN 2PN MASTERI THẢO ĐIỀN GIÁ 7-7.5 TỶ, NHIỀU CĂN</span>
         <span class="bs-item-count">12 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 2 -->
-    <div class="bs-item" data-label="Grand Riverside Q4 - 3PN 7,6 tỷ" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Grand Riverside Q4 - 3PN 7,6 tỷ" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/0a5b1201-80a7-4c10-bb38-b6ecbab58288" alt="" />
       </div>
@@ -2413,11 +2436,11 @@
         <span class="bs-item-title">Bán căn hộ Grand Riverside Q4 - DT 105m2 3PN giá 7,6 tỷ, full nội thất</span>
         <span class="bs-item-count">30 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 3 -->
-    <div class="bs-item" data-label="Căn hộ 2PN 2WC Bến Vân Đồn" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Căn hộ 2PN 2WC Bến Vân Đồn" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/c744f85c-ff27-440b-a93d-06a0bf81ba17" alt="" />
       </div>
@@ -2425,11 +2448,11 @@
         <span class="bs-item-title">Căn hộ 2PN 2WC 71m2 đầy đủ nội thất Bến Vân Đồn</span>
         <span class="bs-item-count">9 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 4 -->
-    <div class="bs-item" data-label="Sunrise City View Q7" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Sunrise City View Q7" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/af4e7632-efe7-49ce-accb-0255d764df42" alt="" />
       </div>
@@ -2437,11 +2460,11 @@
         <span class="bs-item-title">Cho thuê căn hộ Sunrise City View Q7 LH</span>
         <span class="bs-item-count">9 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 5 -->
-    <div class="bs-item" data-label="Sky Garden - nhà đẹp giá rẻ" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Sky Garden - nhà đẹp giá rẻ" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/5939a5e6-cf6b-43b8-9907-c27a9fd9edb8" alt="" />
       </div>
@@ -2449,11 +2472,11 @@
         <span class="bs-item-title">Cần cho thuê căn hộ Sky Garden, nhà đẹp, giá rẻ</span>
         <span class="bs-item-count">9 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 6 -->
-    <div class="bs-item" data-label="Belleza Quận 7" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Belleza Quận 7" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/9a4bf5eb-d8c0-4ab9-b898-685fdac9c996" alt="" />
       </div>
@@ -2461,11 +2484,11 @@
         <span class="bs-item-title">Cho thuê căn hộ Belleza Quận 7</span>
         <span class="bs-item-count">9 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
     <!-- Listing 7 -->
-    <div class="bs-item" data-label="Duplex mới 100% hạt dẻ" onclick="selectItem(this)">
+    <div class="bs-item" data-label="Duplex mới 100% hạt dẻ" onclick="toggleItem(this)">
       <div class="bs-thumb">
         <img src="https://www.figma.com/api/mcp/asset/b5672a1d-ba28-48b5-8409-af684436252c" alt="" />
       </div>
@@ -2473,10 +2496,17 @@
         <span class="bs-item-title">Khai trương duplex mới 100% hạt dẻ</span>
         <span class="bs-item-count">9 khách đang quan tâm</span>
       </div>
-      <div class="bs-radio"><div class="bs-radio-circle"></div></div>
+      <div class="bs-checkbox"></div>
     </div>
 
   </div><!-- /bs-body -->
+
+  <!-- Footer -->
+  <div class="bs-footer">
+    <button class="bs-btn bs-btn-cancel" onclick="cancelFilter()">Huỷ</button>
+    <button class="bs-btn bs-btn-apply" onclick="applyFilter()">Áp dụng</button>
+  </div>
+
 </div><!-- /bottom-sheet -->
 
 <script>
@@ -2498,36 +2528,53 @@
     document.body.style.overflow = '';
   }
 
-  const filterChip = document.getElementById('filter-chip');
-  const defaultLabel = chipLabel.textContent.trim();
+  const filterChip  = document.getElementById('filter-chip');
+  const defaultChipLabel = 'Khách theo tin đăng';
+  const allItem = document.querySelector('.bs-item[data-all]');
 
-  function selectItem(el) {
-    // Update radio selection inside sheet
-    document.querySelectorAll('.bs-item').forEach(i => i.classList.remove('selected'));
-    el.classList.add('selected');
+  function toggleItem(el) {
+    const isAll = el.dataset.all !== undefined;
 
-    const newLabel = el.dataset.label;
-
-    // Mark chip as selected (DS "Select" state) unless it's the default
-    if (newLabel && newLabel !== defaultLabel) {
-      filterChip.classList.add('selected');
+    if (isAll) {
+      // "Tất cả" selected → uncheck everything else, check only this
+      document.querySelectorAll('.bs-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
     } else {
-      filterChip.classList.remove('selected');
-    }
+      // Specific item toggled → uncheck "Tất cả" first
+      document.querySelectorAll('.bs-item[data-all]').forEach(i => i.classList.remove('selected'));
+      el.classList.toggle('selected');
 
-    // Close sheet → show loading on list → update chip after 1 s
+      // If nothing selected, fall back to "Tất cả"
+      const anySelected = document.querySelectorAll('.bs-item:not([data-all]).selected').length > 0;
+      if (!anySelected) {
+        document.querySelectorAll('.bs-item[data-all]').forEach(i => i.classList.add('selected'));
+      }
+    }
+  }
+
+  function applyFilter() {
+    const specific = document.querySelectorAll('.bs-item:not([data-all]).selected');
     closeSheet();
 
-    // Brief delay so sheet slide-down is visible before loading appears
     setTimeout(() => {
       showLoading();
-      chipLabel.textContent = newLabel;
-
-      // After 1 s, hide loading → list "refreshes"
-      setTimeout(() => {
-        hideLoading();
-      }, 1000);
+      if (specific.length === 0) {
+        // "Tất cả" is selected
+        chipLabel.textContent = defaultChipLabel;
+        filterChip.classList.remove('selected');
+      } else if (specific.length === 1) {
+        chipLabel.textContent = specific[0].dataset.label;
+        filterChip.classList.add('selected');
+      } else {
+        chipLabel.textContent = `Khách theo tin đăng (${specific.length})`;
+        filterChip.classList.add('selected');
+      }
+      setTimeout(() => { hideLoading(); }, 1000);
     }, 180);
+  }
+
+  function cancelFilter() {
+    closeSheet();
   }
 
   // Close on swipe-down (drag handle feel on mobile)
