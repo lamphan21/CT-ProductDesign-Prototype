@@ -2469,9 +2469,6 @@
         // "Tất cả" is selected
         chipLabel.textContent = defaultChipLabel;
         filterChip.classList.remove('selected');
-      } else if (specific.length === 1) {
-        chipLabel.textContent = specific[0].dataset.label;
-        filterChip.classList.add('selected');
       } else {
         chipLabel.textContent = `Tin đăng (${specific.length})`;
         filterChip.classList.add('selected');
