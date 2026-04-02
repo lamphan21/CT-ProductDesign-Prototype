@@ -41,7 +41,7 @@
       color: var(--text-primary);
     }
 
-    /* ─── TOP NAV ─────────────────────────────────────────────── */
+    /* ─── TOP NAV (DS Navigation-Desktop) ────────────────────── */
     .top-nav {
       flex-shrink: 0;
       height: 64px;
@@ -53,124 +53,158 @@
       padding: 0 24px;
       z-index: 100;
     }
+    /* Logo group */
     .nav-logo {
-      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+      display: flex; align-items: center; gap: 16px;
+      height: 44px; flex-shrink: 0;
     }
     .nav-menu-btn {
-      width: 40px; height: 40px; border-radius: 50%;
+      width: 40px; height: 40px; border-radius: 99px;
       display: flex; align-items: center; justify-content: center;
-      background: transparent; border: none; cursor: pointer;
+      background: var(--bg-primary); border: none; cursor: pointer;
+      flex-shrink: 0;
     }
     .nav-menu-btn:hover { background: var(--bg-secondary); }
-    .nav-logo-text {
-      font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+    /* Chợ Tốt wordmark */
+    .nav-logo-img {
       display: flex; align-items: center; gap: 0;
+      height: 36px; flex-shrink: 0; text-decoration: none;
     }
-    .logo-cho { color: var(--text-primary); }
-    .logo-tot { color: var(--text-primary); }
-    .logo-caret {
+    .logo-cho {
+      font-size: 20px; font-weight: 400; color: var(--text-primary);
+      font-style: italic; letter-spacing: -0.3px; line-height: 36px;
+    }
+    .logo-tot {
       background: var(--bg-chotot);
-      border-radius: 4px;
-      padding: 1px 5px;
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--text-primary);
-      line-height: 1.2;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 20px; font-weight: 900;
+      color: var(--text-primary); line-height: 1;
+      margin-left: 1px;
+      display: flex; align-items: center;
     }
+    /* Search feature */
     .nav-search-area {
-      flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0;
+      flex: 1; display: flex; align-items: center; gap: 8px;
+      height: 100%; min-width: 0;
     }
     .nav-location-btn {
-      display: flex; align-items: center; gap: 4px;
+      display: flex; align-items: center; gap: 8px;
       background: var(--bg-tonal);
       border: 1px solid var(--border-brand);
       border-radius: var(--radius-pill);
-      padding: 0 12px;
+      padding: 8px 12px;
       height: 40px;
       white-space: nowrap;
-      cursor: pointer;
-      flex-shrink: 0;
+      cursor: pointer; flex-shrink: 0;
+      font: 600 14px var(--font); color: var(--text-primary);
     }
-    .nav-location-btn span {
-      font-size: 14px; font-weight: 600; color: var(--text-primary);
-    }
+    .nav-location-btn:hover { background: #fff3a3; }
     .nav-search-bar {
       flex: 1; height: 40px;
       background: var(--bg-secondary);
       border-radius: 99px;
       display: flex; align-items: center;
-      padding: 0 4px 0 16px; gap: 8px;
+      padding: 8px 4px 8px 16px; gap: 12px;
       min-width: 0;
     }
     .nav-search-bar input {
       flex: 1; border: none; background: transparent;
       font: 14px var(--font); color: var(--text-tertiary);
-      outline: none;
+      outline: none; min-width: 0;
     }
     .nav-search-submit {
-      width: 32px; height: 32px; border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 99px;
       background: var(--bg-chotot);
       border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
+    .nav-search-submit:hover { opacity: .85; }
+    /* Right action groups */
     .nav-actions {
-      display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
+    .nav-icon-group { display: flex; align-items: center; gap: 8px; }
+    /* Plain icon button (40×40, no border) */
     .nav-icon-btn {
-      width: 40px; height: 40px; border-radius: 50%;
+      width: 40px; height: 40px; border-radius: var(--radius-pill);
       display: flex; align-items: center; justify-content: center;
       background: transparent; border: none; cursor: pointer;
-      position: relative;
+      position: relative; overflow: visible; flex-shrink: 0;
     }
     .nav-icon-btn:hover { background: var(--bg-secondary); }
+    /* Badge wrapper for notification */
+    .nav-badge-wrap { position: relative; flex-shrink: 0; }
     .nav-badge {
-      position: absolute; top: 4px; right: 4px;
-      background: #ee3742;
+      position: absolute; top: 0; right: 0;
+      background: #f0325e;
       color: #fff; font-size: 10px; font-weight: 700;
       border-radius: var(--radius-pill);
       min-width: 16px; height: 16px;
       display: flex; align-items: center; justify-content: center;
       padding: 0 4px;
-      border: 1.5px solid var(--bg-primary);
+      border: 1px solid var(--bg-primary);
+      pointer-events: none;
     }
+    /* Liên hệ outline button (h:40, px:16, border:#ddd) */
     .nav-lienhe-btn {
-      display: flex; align-items: center; gap: 6px;
-      border: 1px solid var(--border-thin);
+      display: flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border-regular);
       border-radius: var(--radius-pill);
-      padding: 0 12px; height: 36px;
+      padding: 8px 16px; height: 40px;
       background: var(--bg-primary); cursor: pointer;
-      font-size: 14px; font-weight: 500; color: var(--text-primary);
-      position: relative;
+      font: 600 14px var(--font); color: var(--text-primary);
+      position: relative; overflow: visible; white-space: nowrap;
     }
     .nav-lienhe-btn:hover { background: var(--bg-secondary); }
+    .nav-lienhe-badge {
+      position: absolute; top: 0; right: 0;
+      background: #f0325e;
+      color: #fff; font-size: 10px; font-weight: 700;
+      border-radius: var(--radius-pill);
+      min-width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px;
+      border: 1px solid var(--bg-primary);
+      pointer-events: none;
+    }
+    /* Quản lý tin outline button */
     .nav-quanly-btn {
-      padding: 0 16px; height: 36px;
-      border: 1px solid var(--border-thin);
+      padding: 8px 16px; height: 40px;
+      border: 1px solid var(--border-regular);
       border-radius: var(--radius-pill);
       background: var(--bg-primary); cursor: pointer;
-      font-size: 14px; font-weight: 600; color: var(--text-primary);
+      font: 600 14px var(--font); color: var(--text-primary);
       white-space: nowrap;
     }
     .nav-quanly-btn:hover { background: var(--bg-secondary); }
+    /* Đăng bán yellow button */
     .nav-dangban-btn {
-      padding: 0 16px; height: 36px;
+      padding: 8px 16px; height: 40px;
       background: var(--bg-chotot);
       border: none; border-radius: var(--radius-pill);
       cursor: pointer;
-      font-size: 14px; font-weight: 700; color: var(--text-primary);
+      font: 600 14px var(--font); color: var(--text-primary);
       white-space: nowrap;
     }
     .nav-dangban-btn:hover { opacity: .9; }
-    .nav-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: #e8b4a0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: #7a3b20;
+    /* More menu: avatar + chevron */
+    .nav-more-menu {
+      display: flex; align-items: center; gap: 8px;
+      height: 40px; padding: 4px 8px 4px 4px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-thin);
+      border-radius: 99px;
       cursor: pointer; flex-shrink: 0;
     }
-    .nav-avatar-wrap {
-      display: flex; align-items: center; gap: 4px; cursor: pointer;
+    .nav-more-menu:hover { background: var(--bg-secondary); }
+    .nav-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #e8b4a0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #7a3b20;
+      flex-shrink: 0; overflow: hidden;
     }
 
     /* ─── MAIN LAYOUT ─────────────────────────────────────────── */
@@ -779,82 +813,108 @@
 </head>
 <body>
 
-  <!-- ═══════════ TOP NAV ═══════════ -->
+  <!-- ═══════════ TOP NAV (DS Navigation-Desktop) ═══════════ -->
   <nav class="top-nav">
+
+    <!-- Logo: hamburger + wordmark -->
     <div class="nav-logo">
-      <button class="nav-menu-btn">
-        <!-- Hamburger -->
+      <button class="nav-menu-btn" aria-label="Menu">
+        <!-- menu-01 icon -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 12h18M3 6h18M3 18h18" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="#222" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
-      <!-- Chợ Tốt logo -->
-      <div class="nav-logo-text">
-        <span class="logo-cho">chợ</span><span class="logo-caret">TỐT</span>
+      <div class="nav-logo-img">
+        <span class="logo-cho">chợ</span><span class="logo-tot">TỐT</span>
       </div>
     </div>
 
+    <!-- Search feature: location + search bar -->
     <div class="nav-search-area">
-      <!-- Location -->
+      <!-- Location button -->
       <button class="nav-location-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <!-- Location-fill icon -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#ffd400"/>
         </svg>
-        <span>Tp. Hồ Chí Minh</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M6 9l6 6 6-6" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <!-- Label + ChevrondownFill -->
+        <span style="display:flex;align-items:center;gap:2px;">
+          <span style="font:600 14px var(--font);color:var(--text-primary);">Tp. Hồ Chí Minh</span>
+          <!-- ChevrondownFill -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
       </button>
       <!-- Search bar -->
       <div class="nav-search-bar">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <circle cx="11" cy="11" r="7" stroke="#8c8c8c" stroke-width="2"/>
-          <path d="M16.5 16.5L21 21" stroke="#8c8c8c" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <input type="text" placeholder="Tìm kiếm sản phẩm...">
-        <button class="nav-search-submit">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7" stroke="#222" stroke-width="2.5"/>
-            <path d="M16.5 16.5L21 21" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+          <!-- Search-outline icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+            <circle cx="11" cy="11" r="7" stroke="#8c8c8c" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="#8c8c8c" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Tìm kiếm sản phẩm...">
+        </div>
+        <!-- Yellow search button (32×32) -->
+        <button class="nav-search-submit" aria-label="Tìm kiếm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="#222" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="#222" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
     </div>
 
+    <!-- Right: icon buttons + action buttons -->
     <div class="nav-actions">
-      <!-- Wishlist -->
-      <button class="nav-icon-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <!-- Notifications -->
-      <button class="nav-icon-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="nav-badge">33</span>
-      </button>
-      <!-- Liên hệ -->
-      <button class="nav-lienhe-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Liên hệ
-        <span class="nav-badge" style="position:relative;top:auto;right:auto;border:none;background:#ee3742;">82</span>
-      </button>
-      <!-- Quản lý tin -->
+      <div class="nav-icon-group">
+        <!-- Wishlist (Heart-outline) -->
+        <button class="nav-icon-btn" aria-label="Yêu thích">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <!-- Notification bell with badge -->
+        <div class="nav-badge-wrap">
+          <button class="nav-icon-btn" aria-label="Thông báo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <span class="nav-badge">22</span>
+        </div>
+      </div>
+
+      <!-- Liên hệ button (outline, icon + label + badge) -->
+      <div class="nav-badge-wrap">
+        <button class="nav-lienhe-btn" aria-label="Liên hệ">
+          <!-- Livechat / chat icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Liên hệ
+        </button>
+        <span class="nav-lienhe-badge">22</span>
+      </div>
+
+      <!-- Quản lý tin (outline, label only) -->
       <button class="nav-quanly-btn">Quản lý tin</button>
-      <!-- Đăng bán -->
+
+      <!-- Đăng bán (yellow primary) -->
       <button class="nav-dangban-btn">Đăng bán</button>
-      <!-- Avatar -->
-      <div class="nav-avatar-wrap">
+
+      <!-- More menu: avatar + chevron-down-outline -->
+      <div class="nav-more-menu" role="button" aria-label="Tài khoản">
         <div class="nav-avatar">A</div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <!-- ChevrondownOutline -->
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M6 9l6 6 6-6" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </div>
+
   </nav>
 
   <!-- ═══════════ MAIN LAYOUT ═══════════ -->
