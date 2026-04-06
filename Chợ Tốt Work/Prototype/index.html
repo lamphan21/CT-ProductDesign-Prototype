@@ -47,46 +47,17 @@
 
     body {
       font-family: var(--font);
-      background: #d8d8d8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--bg-primary);
       min-height: 100vh;
     }
 
     /* ─── Device Shell ───────────────────────────────────────── */
     .device {
-      width: 375px;
-      height: 812px;
-      background: var(--bg-app);
-      border-radius: var(--r-modal);
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(34,34,34,.12);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    /* ─── Status Bar ─────────────────────────────────────────── */
-    .status-bar {
-      height: 44px;
+      width: 100%;
+      min-height: 100vh;
       background: var(--bg-primary);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      flex-shrink: 0;
-    }
-    .status-time {
-      font-family: -apple-system, 'SF Pro Text', sans-serif;
-      font-size: 17px;
-      font-weight: 600;
-      color: #000;
-      line-height: 22px;
-    }
-    .status-icons img {
-      height: 14px;
-      display: block;
+      flex-direction: column;
     }
 
     /* ─── Top Navigation ─────────────────────────────────────── */
@@ -97,7 +68,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
       padding: 0 8px;
       flex-shrink: 0;
     }
@@ -226,6 +200,7 @@
       flex: 1;
       overflow-y: auto;
       background: var(--bg-primary);
+      padding-bottom: 73px; /* clearance for fixed bottom nav */
     }
     .chat-list::-webkit-scrollbar { display: none; }
 
@@ -440,30 +415,25 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .intent-arrow img { width: 20px; height: 20px; display: block; flex-shrink: 0; }
+    .intent-arrow img { width: 10px; height: 10px; display: block; flex-shrink: 0; }
 
     /* ─── Bottom Navigation ──────────────────────────────────── */
     .bottom-nav {
       height: 73px;
       background: var(--bg-primary);
-      box-shadow: 0 -2px 8px rgba(34,34,34,.06);
-      position: relative;
-      flex-shrink: 0;
-    }
-    /* Union bump shape */
-    .nav-union {
-      position: absolute;
-      bottom: 25px;
+      box-shadow: 0 -1px 0 var(--border-thin), 0 -4px 16px rgba(34,34,34,.08);
+      position: fixed;
+      bottom: 0;
       left: 0;
-      width: 375px;
-      height: 66px;
-      pointer-events: none;
+      right: 0;
+      z-index: 100;
     }
-    .nav-union img { width: 100%; height: 100%; display: block; }
+    /* Union bump shape – hidden at full width */
+    .nav-union { display: none; }
 
     .nav-items {
       position: absolute;
-      bottom: -1px;
+      bottom: 12px;
       left: 8px;
       right: 8px;
       height: 48px;
@@ -568,15 +538,7 @@
 <body>
 <div class="device">
 
-  <!-- ① Status Bar -->
-  <div class="status-bar">
-    <span class="status-time">9:41</span>
-    <div class="status-icons">
-      <img src="https://www.figma.com/api/mcp/asset/542ca75c-f14d-419f-9232-9f87907720eb" alt="">
-    </div>
-  </div>
-
-  <!-- ② Top Navigation -->
+  <!-- ① Top Navigation -->
   <div class="top-nav">
     <span class="top-nav-title">Liên hệ</span>
     <div class="top-nav-actions">
