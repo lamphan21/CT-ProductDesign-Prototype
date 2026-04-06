@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat List – Chợ Tốt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design Tokens ──────────────────────────────────────── */
+    :root {
+      /* Background */
+      --bg-primary:        #ffffff;
+      --bg-secondary:      #f4f4f4;
+      --bg-tertiary:       #e8e8e8;
+      --bg-app:            #f7f7f7;
+      --bg-inverted:       #222222;
+      --bg-error:          #f0325e;
+      --bg-chotot:         #ffd400;
+      --bg-info-light:     #f2f6fc;
+
+      /* Text */
+      --text-primary:      #222222;
+      --text-secondary:    #595959;
+      --text-tertiary:     #8c8c8c;
+      --text-blank:        #ffffff;
+
+      /* Border */
+      --border-regular:    #dddddd;
+      --border-black:      #222222;
+      --border-divider:    #f4f4f4;
+      --border-blank:      #ffffff;
+      --border-thin:       #e8e8e8;
+
+      /* Radius */
+      --r-pill:            999px;
+      --r-card-sm:         8px;
+      --r-modal:           20px;
+      --r-ad:              6px;
+
+      /* Font */
+      --font:              'Reddit Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: #d8d8d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ─── Device Shell ───────────────────────────────────────── */
+    .device {
+      width: 375px;
+      height: 812px;
+      background: var(--bg-app);
+      border-radius: var(--r-modal);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(34,34,34,.12);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* ─── Status Bar ─────────────────────────────────────────── */
+    .status-bar {
+      height: 44px;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+    .status-time {
+      font-family: -apple-system, 'SF Pro Text', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #000;
+      line-height: 22px;
+    }
+    .status-icons img {
+      height: 14px;
+      display: block;
+    }
+
+    /* ─── Top Navigation ─────────────────────────────────────── */
+    .top-nav {
+      height: 52px;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-thin);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+    .top-nav-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 24px;
+    }
+    .top-nav-actions {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+    }
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .icon-btn img { width: 24px; height: 24px; display: block; }
+
+    /* ─── Tab + Filter ───────────────────────────────────────── */
+    .tab-filter {
+      background: var(--bg-primary);
+      padding: 12px 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Tab Type (pill switcher) */
+    .tab-type {
+      height: 40px;
+      background: var(--bg-secondary);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+    }
+    .tab-chip {
+      flex: 1;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--r-pill);
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .tab-chip.active   { background: var(--bg-inverted); }
+    .tab-chip-label {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+    .tab-chip.active   .tab-chip-label { color: var(--text-blank); }
+    .tab-chip:not(.active) .tab-chip-label { color: var(--text-primary); }
+    .badge-pill {
+      min-width: 20px;
+      height: 16px;
+      padding: 0 4px;
+      background: var(--bg-error);
+      border: 2px solid var(--border-blank);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-blank);
+      line-height: 1;
+    }
+
+    /* Filter Chips (horizontal scroll) */
+    .filter-row {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      overflow: hidden;
+      padding-bottom: 12px;
+    }
+    .filter-chip {
+      height: 32px;
+      padding: 4px 12px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border-regular);
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .filter-chip.active {
+      border-color: var(--border-black);
+      background: var(--bg-secondary);
+    }
+    .filter-chip-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 20px;
+    }
+    .filter-fade {
+      position: absolute;
+      right: -16px;
+      top: 0;
+      width: 74px;
+      height: 32px;
+      background: linear-gradient(to left, #fff 0%, rgba(255,255,255,0) 100%);
+      pointer-events: none;
+    }
+
+    /* ─── Chat List ──────────────────────────────────────────── */
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg-primary);
+    }
+    .chat-list::-webkit-scrollbar { display: none; }
+
+    /* ─── Chat Card ──────────────────────────────────────────── */
+    .chat-card {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-divider);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chat-content-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* Avatar group */
+    .ava-group {
+      position: relative;
+      flex-shrink: 0;
+      width: 52px;
+    }
+    .ava-group.with-product { height: 60px; }
+    .ava-group.no-product   { height: 52px; }
+
+    .avatar-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-thumb {
+      position: absolute;
+      right: -8px;
+      bottom: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-ad);
+      border: 1px solid var(--border-blank);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(34,34,34,.12);
+    }
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--r-ad);
+    }
+
+    /* Content column */
+    .chat-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Label group */
+    .label-group {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .label-tag {
+      background: var(--bg-tertiary);
+      border-radius: var(--r-pill);
+      padding: 2px 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .label-tag img {
+      width: 12px;
+      height: 12px;
+      display: block;
+    }
+    .label-tag-text {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    /* User info row */
+    .user-info-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      min-width: 0;
+    }
+    .user-name.no-flex { flex: none; }
+    .unread-badge {
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: var(--bg-error);
+      border: 2px solid var(--border-blank);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-blank);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .verify-icon {
+      width: 18px;
+      height: 16px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .verify-icon img { width: 100%; height: 100%; display: block; }
+
+    /* Message row */
+    .message-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .msg-text {
+      flex: 1;
+      min-width: 0;
+      font-size: 14px;
+      line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-text.unread {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .msg-text.read {
+      font-weight: 400;
+      color: var(--text-tertiary);
+    }
+    .msg-time {
+      font-size: 14px;
+      line-height: 20px;
+      flex-shrink: 0;
+    }
+    .msg-time.unread { font-weight: 400; color: var(--text-secondary); }
+    .msg-time.read   { font-weight: 400; color: var(--text-tertiary); }
+
+    /* Rating button */
+    .rating-btn {
+      align-self: flex-start;
+      height: 32px;
+      padding: 4px 12px;
+      background: #fff;
+      border: 1px solid var(--border-regular);
+      border-radius: var(--r-card-sm);
+      cursor: pointer;
+    }
+    .rating-btn span {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    /* Chat intent */
+    .chat-intent {
+      background: var(--bg-info-light);
+      border-radius: var(--r-card-sm);
+      padding: 8px 12px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .intent-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 20px;
+      flex-shrink: 0;
+    }
+    .intent-text {
+      flex: 1;
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .intent-arrow img { width: 20px; height: 20px; display: block; flex-shrink: 0; }
+
+    /* ─── Bottom Navigation ──────────────────────────────────── */
+    .bottom-nav {
+      height: 73px;
+      background: var(--bg-primary);
+      box-shadow: 0 -2px 8px rgba(34,34,34,.06);
+      position: relative;
+      flex-shrink: 0;
+    }
+    /* Union bump shape */
+    .nav-union {
+      position: absolute;
+      bottom: 25px;
+      left: 0;
+      width: 375px;
+      height: 66px;
+      pointer-events: none;
+    }
+    .nav-union img { width: 100%; height: 100%; display: block; }
+
+    .nav-items {
+      position: absolute;
+      bottom: -1px;
+      left: 8px;
+      right: 8px;
+      height: 48px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    /* Regular nav item */
+    .nav-item {
+      flex: 1;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px 0;
+      cursor: pointer;
+      position: relative;
+    }
+    .nav-item img { width: 20px; height: 20px; display: block; }
+    .nav-item-label {
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .nav-item-label.inactive { font-weight: 500; color: var(--text-tertiary); }
+    .nav-item-label.active   { font-weight: 700; color: var(--text-primary); }
+
+    /* Nav item badge */
+    .nav-item-badge {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: var(--bg-error);
+      border: 2px solid var(--border-blank);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    /* CTA post-ad item */
+    .nav-cta {
+      flex: 1;
+      height: 48px;
+      position: relative;
+    }
+    .nav-cta-inner {
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .cta-circle {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-chotot);
+      border-radius: var(--r-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cta-circle img { width: 32px; height: 32px; display: block; }
+    .cta-label {
+      background: var(--bg-chotot);
+      border-radius: 99px;
+      padding: 0 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    /* Home indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 139px;
+      height: 5px;
+      background: #000;
+      border-radius: 100px;
+    }
+  </style>
+</head>
+<body>
+<div class="device">
+
+  <!-- ① Status Bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <img src="https://www.figma.com/api/mcp/asset/542ca75c-f14d-419f-9232-9f87907720eb" alt="">
+    </div>
+  </div>
+
+  <!-- ② Top Navigation -->
+  <div class="top-nav">
+    <span class="top-nav-title">Liên hệ</span>
+    <div class="top-nav-actions">
+      <div class="icon-btn">
+        <img src="https://www.figma.com/api/mcp/asset/5ee274cb-431e-4b3d-ad87-f594d531cf99" alt="search">
+      </div>
+      <div class="icon-btn">
+        <img src="https://www.figma.com/api/mcp/asset/c886a3e4-5930-4fbf-ad70-1c607e515e07" alt="more">
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ Tab Type + Filter -->
+  <div class="tab-filter">
+    <!-- Tab Type Switcher -->
+    <div class="tab-type">
+      <div class="tab-chip active">
+        <span class="tab-chip-label">Tin nhắn</span>
+        <div class="badge-pill">12</div>
+      </div>
+      <div class="tab-chip">
+        <span class="tab-chip-label">Khách</span>
+        <div class="badge-pill">3</div>
+      </div>
+    </div>
+    <!-- Filter Chips -->
+    <div class="filter-row">
+      <div class="filter-chip active">
+        <span class="filter-chip-label">Tất cả</span>
+      </div>
+      <div class="filter-chip">
+        <span class="filter-chip-label">Chưa đọc</span>
+      </div>
+      <div class="filter-chip">
+        <span class="filter-chip-label">Hẹn gặp</span>
+      </div>
+      <div class="filter-chip">
+        <span class="filter-chip-label">Tin rác/Bỏ qua</span>
+      </div>
+      <div class="filter-fade"></div>
+    </div>
+  </div>
+
+  <!-- ④ Chat List -->
+  <div class="chat-list">
+
+    <!-- Card 1: Unread, non-official, labels + intent -->
+    <div class="chat-card">
+      <div class="chat-content-row">
+        <div class="ava-group with-product">
+          <div class="avatar-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/fef60895-3eb5-4237-92ac-671a82d5ec7d" alt="avatar">
+          </div>
+          <div class="product-thumb">
+            <img src="https://www.figma.com/api/mcp/asset/5d64e17c-35e1-483b-bf3b-0a63e4185f27" alt="product">
+          </div>
+        </div>
+        <div class="chat-info">
+          <div class="label-group">
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/33c8ddd7-a921-4382-ab17-c06ae65c101b" alt="">
+              <span class="label-tag-text">Khách mới</span>
+            </div>
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/ed01cfaf-4e17-43db-a395-b22a6ceb824d" alt="">
+              <span class="label-tag-text">Hẹn gặp</span>
+            </div>
+          </div>
+          <div class="user-info-row">
+            <span class="user-name">Tran Thanh An</span>
+            <div class="unread-badge">12</div>
+          </div>
+          <div class="message-row">
+            <span class="msg-text unread">Nhà này hướng nào thế bạn?</span>
+            <span class="msg-time unread">11:30</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-intent">
+        <span class="intent-label">Tìm:</span>
+        <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+        <div class="intent-arrow">
+          <img src="https://www.figma.com/api/mcp/asset/bb79affe-d8f6-46c1-b775-933652d514d2" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Seen, non-official, labels + intent -->
+    <div class="chat-card">
+      <div class="chat-content-row">
+        <div class="ava-group with-product">
+          <div class="avatar-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/fef60895-3eb5-4237-92ac-671a82d5ec7d" alt="avatar">
+          </div>
+          <div class="product-thumb">
+            <img src="https://www.figma.com/api/mcp/asset/5d64e17c-35e1-483b-bf3b-0a63e4185f27" alt="product">
+          </div>
+        </div>
+        <div class="chat-info">
+          <div class="label-group">
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/33c8ddd7-a921-4382-ab17-c06ae65c101b" alt="">
+              <span class="label-tag-text">Khách mới</span>
+            </div>
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/ed01cfaf-4e17-43db-a395-b22a6ceb824d" alt="">
+              <span class="label-tag-text">Hẹn gặp</span>
+            </div>
+          </div>
+          <div class="user-info-row">
+            <span class="user-name">Tran Thanh An</span>
+            <div class="unread-badge">12</div>
+          </div>
+          <div class="message-row">
+            <span class="msg-text read">Nhà này hướng nào thế bạn?</span>
+            <span class="msg-time read">11:30</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-intent">
+        <span class="intent-label">Tìm:</span>
+        <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+        <div class="intent-arrow">
+          <img src="https://www.figma.com/api/mcp/asset/bb79affe-d8f6-46c1-b775-933652d514d2" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Official Account (Chợ Tốt), no labels, no product image -->
+    <div class="chat-card">
+      <div class="chat-content-row">
+        <div class="ava-group no-product">
+          <div class="avatar-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/aaef38f5-def1-4ca7-916c-893b74971804" alt="Chợ Tốt">
+          </div>
+        </div>
+        <div class="chat-info">
+          <div class="user-info-row">
+            <span class="user-name no-flex">Chợ Tốt Official Account</span>
+            <div class="verify-icon">
+              <img src="https://www.figma.com/api/mcp/asset/31688455-2859-491c-9fa6-84c235c1893b" alt="verified">
+            </div>
+          </div>
+          <div class="message-row">
+            <span class="msg-text read">Đây là nội dung tin nhắn được từ Chợ Tốt</span>
+            <span class="msg-time read">11:30</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Seen, non-official, labels + intent -->
+    <div class="chat-card">
+      <div class="chat-content-row">
+        <div class="ava-group with-product">
+          <div class="avatar-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/fef60895-3eb5-4237-92ac-671a82d5ec7d" alt="avatar">
+          </div>
+          <div class="product-thumb">
+            <img src="https://www.figma.com/api/mcp/asset/5d64e17c-35e1-483b-bf3b-0a63e4185f27" alt="product">
+          </div>
+        </div>
+        <div class="chat-info">
+          <div class="label-group">
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/33c8ddd7-a921-4382-ab17-c06ae65c101b" alt="">
+              <span class="label-tag-text">Khách mới</span>
+            </div>
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/ed01cfaf-4e17-43db-a395-b22a6ceb824d" alt="">
+              <span class="label-tag-text">Hẹn gặp</span>
+            </div>
+          </div>
+          <div class="user-info-row">
+            <span class="user-name">Tran Thanh An</span>
+            <div class="unread-badge">12</div>
+          </div>
+          <div class="message-row">
+            <span class="msg-text read">Nhà này hướng nào thế bạn?</span>
+            <span class="msg-time read">11:30</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-intent">
+        <span class="intent-label">Tìm:</span>
+        <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+        <div class="intent-arrow">
+          <img src="https://www.figma.com/api/mcp/asset/bb79affe-d8f6-46c1-b775-933652d514d2" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: Seen, non-official, labels + intent (partially visible) -->
+    <div class="chat-card">
+      <div class="chat-content-row">
+        <div class="ava-group with-product">
+          <div class="avatar-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/fef60895-3eb5-4237-92ac-671a82d5ec7d" alt="avatar">
+          </div>
+          <div class="product-thumb">
+            <img src="https://www.figma.com/api/mcp/asset/5d64e17c-35e1-483b-bf3b-0a63e4185f27" alt="product">
+          </div>
+        </div>
+        <div class="chat-info">
+          <div class="label-group">
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/33c8ddd7-a921-4382-ab17-c06ae65c101b" alt="">
+              <span class="label-tag-text">Khách mới</span>
+            </div>
+            <div class="label-tag">
+              <img src="https://www.figma.com/api/mcp/asset/ed01cfaf-4e17-43db-a395-b22a6ceb824d" alt="">
+              <span class="label-tag-text">Hẹn gặp</span>
+            </div>
+          </div>
+          <div class="user-info-row">
+            <span class="user-name">Tran Thanh An</span>
+            <div class="unread-badge">12</div>
+          </div>
+          <div class="message-row">
+            <span class="msg-text read">Nhà này hướng nào thế bạn?</span>
+            <span class="msg-time read">11:30</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-intent">
+        <span class="intent-label">Tìm:</span>
+        <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+        <div class="intent-arrow">
+          <img src="https://www.figma.com/api/mcp/asset/bb79affe-d8f6-46c1-b775-933652d514d2" alt="">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /chat-list -->
+
+  <!-- ⑤ Bottom Navigation -->
+  <div class="bottom-nav">
+    <!-- Bump shape background -->
+    <div class="nav-union">
+      <img src="https://www.figma.com/api/mcp/asset/d3c4e1ba-a0e7-4004-86b1-a7cb5b858fa5" alt="">
+    </div>
+
+    <div class="nav-items">
+      <!-- Trang chủ -->
+      <div class="nav-item">
+        <img src="https://www.figma.com/api/mcp/asset/6a8291bd-7249-4543-862a-a3692e20e91b" alt="home">
+        <span class="nav-item-label inactive">Trang chủ</span>
+      </div>
+
+      <!-- Quản lý tin -->
+      <div class="nav-item">
+        <img src="https://www.figma.com/api/mcp/asset/5673ef2d-9102-4b3c-8a2e-9d4650cfe64d" alt="tag">
+        <span class="nav-item-label inactive">Quản lý tin</span>
+      </div>
+
+      <!-- Đăng tin CTA -->
+      <div class="nav-cta">
+        <div class="nav-cta-inner">
+          <div class="cta-circle">
+            <img src="https://www.figma.com/api/mcp/asset/d7dce8e3-9ce6-419d-8b34-008301459a0a" alt="post">
+          </div>
+          <span class="cta-label">Đăng tin</span>
+        </div>
+      </div>
+
+      <!-- Liên hệ (active) -->
+      <div class="nav-item">
+        <img src="https://www.figma.com/api/mcp/asset/07984a54-de52-4dea-bbeb-15d0c753eb37" alt="chat">
+        <div class="nav-item-badge">12</div>
+        <span class="nav-item-label active">Liên hệ</span>
+      </div>
+
+      <!-- Tài khoản -->
+      <div class="nav-item">
+        <div style="width:20px;height:20px;border-radius:50%;overflow:hidden;flex-shrink:0">
+          <img src="https://www.figma.com/api/mcp/asset/fef60895-3eb5-4237-92ac-671a82d5ec7d" alt="profile"
+               style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <span class="nav-item-label inactive">Tài khoản</span>
+      </div>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+  </div>
+
+</div>
+</body>
+</html>
