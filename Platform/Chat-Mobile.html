@@ -194,7 +194,7 @@
       align-items: center;
       gap: 4px;
     }
-    .filter-chip-dropdown img { width: 20px; height: 20px; display: block; }
+    .filter-chip-dropdown img { width: 10px; height: 8px; display: block; }
 
     /* ── Intent Lead List ─────────────────────────────────── */
     .intent-list { background: var(--bg-app); display: none; flex-direction: column; gap: 4px; }
@@ -423,7 +423,10 @@
       flex-direction: column;
       gap: 8px;
       background: var(--bg-primary);
+      cursor: pointer;
+      transition: background 0.12s;
     }
+    .chat-item:active { background: var(--bg-secondary); }
 
     .chat-content {
       display: flex;
@@ -1475,6 +1478,13 @@
     // Shadow on scroll
     content.addEventListener('scroll', () => {
       tabsSection.classList.toggle('scrolled', content.scrollTop > 0);
+    });
+
+    // Chat item → Chat Room
+    document.querySelector('.chat-list').addEventListener('click', e => {
+      if (e.target.closest('.chat-item')) {
+        window.location.href = 'Chat-Room-Mobile.html';
+      }
     });
 
     // Tab switching
