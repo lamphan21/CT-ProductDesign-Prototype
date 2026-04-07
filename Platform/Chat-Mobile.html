@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Mobile — Platform — Chợ Tốt Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+
+    /* ── Workspace shell ──────────────────────────────────── */
+    :root {
+      --brand:           #FFBA00;
+      --brand-dim:       rgba(255,186,0,0.12);
+      --brand-glow:      rgba(255,186,0,0.25);
+      --bg-base:         #0E0E0E;
+      --bg-surface:      #1A1A1A;
+      --bg-elevated:     #242424;
+      --bg-hover:        #2C2C2C;
+      --text-primary:    #F5F5F5;
+      --text-secondary:  #9A9A9A;
+      --text-tertiary:   #5A5A5A;
+      --border:          rgba(255,255,255,0.08);
+      --border-brand:    rgba(255,186,0,0.4);
+      --font:            'Be Vietnam Pro', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-base);
+      min-height: 100vh;
+      color: var(--text-primary);
+      padding-bottom: 48px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 56px;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      flex-shrink: 0; border-radius: 8px; overflow: hidden;
+    }
+    .logo-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .logo-badge {
+      font-size: 9px; font-weight: 600; color: #fff;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-left: 2px; align-self: flex-end; padding-bottom: 2px;
+    }
+
+    .header-breadcrumb {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    }
+    .breadcrumb-item {
+      color: var(--text-tertiary); text-decoration: none; transition: color 0.15s;
+    }
+    .breadcrumb-item:hover { color: var(--text-secondary); }
+    .breadcrumb-sep { color: var(--text-tertiary); font-size: 10px; }
+    .breadcrumb-current {
+      color: var(--brand);
+      background: var(--brand-dim);
+      border: 1px solid var(--border-brand);
+      border-radius: 100px;
+      padding: 3px 10px;
+    }
+
+    /* Phone wrapper */
+    .phone-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 88px 20px 48px;
+    }
+
+    .phone-frame {
+      width: 375px;
+      border-radius: 44px;
+      outline: 10px solid #1C1C1E;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.07),
+        0 60px 120px rgba(0,0,0,0.8),
+        0 20px 40px rgba(0,0,0,0.5);
+      background: #fff;
+      position: relative;
+    }
+
+    /* ── App UI tokens ────────────────────────────────────── */
+    .app {
+      --a-bg-primary:      #FFFFFF;
+      --a-bg-secondary:    #F4F4F4;
+      --a-bg-tertiary:     #E8E8E8;
+      --a-bg-app:          #F7F7F7;
+      --a-bg-inverted:     #222222;
+      --a-bg-error:        #F0325E;
+      --a-bg-chotot:       #FFD400;
+      --a-bg-info-light:   #F2F6FC;
+      --a-text-primary:    #222222;
+      --a-text-secondary:  #595959;
+      --a-text-tertiary:   #8C8C8C;
+      --a-text-blank:      #FFFFFF;
+      --a-border-divider:  #F4F4F4;
+      --a-border-regular:  #DDDDDD;
+      --a-border-thin:     #E8E8E8;
+      --a-border-black:    #222222;
+      --a-border-blank:    #FFFFFF;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--a-bg-app);
+      width: 375px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Status Bar ───────────────────────────────────────── */
+    .status-bar {
+      height: 44px;
+      background: var(--a-bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .status-time {
+      font-size: 17px;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: -0.4px;
+    }
+    .status-icons img {
+      height: 14px;
+      display: block;
+    }
+
+    /* ── App Header ───────────────────────────────────────── */
+    .app-header {
+      height: 52px;
+      background: var(--a-bg-primary);
+      border-bottom: 1px solid var(--a-border-thin);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px 0 16px;
+    }
+    .app-header-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--a-text-primary);
+      letter-spacing: 0;
+    }
+    .app-header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .app-header-btn {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .app-header-btn img { width: 24px; height: 24px; display: block; }
+
+    /* ── Tab Type ─────────────────────────────────────────── */
+    .tabs-section {
+      background: var(--a-bg-primary);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tab-type {
+      display: flex;
+      background: var(--a-bg-secondary);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .tab-chip {
+      flex: 1;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--a-text-primary);
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+    .tab-chip.active {
+      background: var(--a-bg-inverted);
+      color: var(--a-text-blank);
+    }
+
+    .tab-badge {
+      min-width: 20px;
+      padding: 0 4px;
+      height: 16px;
+      background: var(--a-bg-error);
+      border: 2px solid var(--a-border-blank);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--a-text-blank);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Filter chips row */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      position: relative;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      height: 32px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--a-border-regular);
+      background: var(--a-bg-primary);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--a-text-primary);
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .filter-chip.active {
+      background: var(--a-bg-secondary);
+      border-color: var(--a-border-black);
+    }
+
+    /* ── Chat List ────────────────────────────────────────── */
+    .chat-list {
+      background: var(--a-bg-primary);
+    }
+
+    .chat-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--a-border-divider);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--a-bg-primary);
+    }
+
+    .chat-content {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* Avatar group */
+    .ava-group {
+      position: relative;
+      width: 52px;
+      height: 60px;
+      flex-shrink: 0;
+    }
+    .ava-group.official { height: 52px; }
+
+    .avatar-img {
+      position: absolute;
+      left: 0; top: 0;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .avatar-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    .product-thumb {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: -8px;
+      bottom: 0;
+      border-radius: 6px;
+      border: 1px solid var(--a-border-blank);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(34,34,34,0.12);
+    }
+    .product-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* Chat item content */
+    .chat-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Labels */
+    .labels-row {
+      display: flex;
+      gap: 4px;
+    }
+    .label-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--a-bg-tertiary);
+      border-radius: 999px;
+      padding: 2px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--a-text-primary);
+      white-space: nowrap;
+    }
+    .label-tag img { width: 12px; height: 12px; display: block; }
+
+    /* User row */
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .username {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--a-text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 20px;
+    }
+    .username.official-name { flex: none; }
+
+    .unread-badge {
+      min-width: 16px;
+      padding: 0 4px;
+      background: var(--a-bg-error);
+      border: 2px solid var(--a-border-blank);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--a-text-blank);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 16px;
+    }
+
+    .verify-icon {
+      width: 16px; height: 16px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .verify-icon img { width: 100%; height: 100%; display: block; }
+
+    /* Message row */
+    .msg-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .msg-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--a-text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 20px;
+    }
+    .msg-text.read {
+      font-weight: 400;
+      color: var(--a-text-tertiary);
+    }
+    .msg-time {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--a-text-secondary);
+      flex-shrink: 0;
+      line-height: 20px;
+    }
+    .msg-time.read { color: var(--a-text-tertiary); }
+
+    /* Rating button */
+    .rating-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      padding: 4px 12px;
+      background: #fff;
+      border: 1px solid var(--a-border-regular);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--a-text-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      line-height: 20px;
+    }
+
+    /* Intent bar */
+    .intent-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--a-bg-info-light);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .intent-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--a-text-primary);
+      flex-shrink: 0;
+      line-height: 20px;
+    }
+    .intent-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--a-text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 20px;
+    }
+    .intent-arrow { width: 20px; height: 20px; flex-shrink: 0; }
+    .intent-arrow img { width: 100%; height: 100%; display: block; }
+
+    /* ── Bottom Navigation ────────────────────────────────── */
+    .bottom-nav {
+      height: 73px;
+      background: var(--a-bg-primary);
+      box-shadow: 0 -4px 16px rgba(34,34,34,0.08);
+      position: relative;
+    }
+
+    .bottom-nav-inner {
+      position: absolute;
+      bottom: 1px;
+      left: 8px; right: 8px;
+      height: 48px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-icon { width: 20px; height: 20px; position: relative; }
+    .nav-icon img { width: 100%; height: 100%; display: block; }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--a-text-tertiary);
+      text-align: center;
+      white-space: nowrap;
+      line-height: 16px;
+    }
+    .nav-label.active {
+      font-weight: 700;
+      color: var(--a-text-primary);
+    }
+
+    /* Main CTA */
+    .nav-cta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+    }
+    .nav-cta-inner {
+      position: absolute;
+      bottom: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-cta-btn {
+      width: 40px; height: 40px;
+      background: var(--a-bg-chotot);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-cta-btn img { width: 32px; height: 32px; display: block; }
+    .nav-cta-label {
+      background: var(--a-bg-chotot);
+      border-radius: 99px;
+      padding: 0 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--a-text-primary);
+      text-align: center;
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+      height: 21px;
+      background: var(--a-bg-primary);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+    }
+    .home-indicator-bar {
+      width: 139px; height: 5px;
+      background: #000;
+      border-radius: 100px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Workspace Header -->
+  <header>
+    <div class="header-left">
+      <a href="Chat.html" class="back-btn" aria-label="Back">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">
+          <img src="../image/CT-logo2026.png" alt="Chợ Tốt" />
+        </div>
+        <span class="logo-badge">Chợ Tốt Product Designer</span>
+      </a>
+    </div>
+    <div class="header-breadcrumb">
+      <a href="Platform.html" class="breadcrumb-item">Platform</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="Chat.html" class="breadcrumb-item">Chat</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Mobile</span>
+    </div>
+  </header>
+
+  <!-- Phone mockup -->
+  <div class="phone-wrapper">
+    <div class="phone-frame">
+      <div class="app">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <img src="https://www.figma.com/api/mcp/asset/bfc4e570-1136-41b3-9bf6-1ff716a2088b" alt="" style="height:14px;display:block;" />
+        </div>
+
+        <!-- App Header -->
+        <div class="app-header">
+          <span class="app-header-title">Liên hệ</span>
+          <div class="app-header-actions">
+            <div class="app-header-btn">
+              <img src="https://www.figma.com/api/mcp/asset/b5ebbb82-c68c-43bf-a3a6-0efb8be52d26" alt="Search" />
+            </div>
+            <div class="app-header-btn">
+              <img src="https://www.figma.com/api/mcp/asset/00f5d99b-3fb6-4a19-8b8c-72d6e0f64c79" alt="More" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs + Filter -->
+        <div class="tabs-section">
+          <!-- Tab type -->
+          <div class="tab-type">
+            <div class="tab-chip active">
+              Tin nhắn
+              <span class="tab-badge">12</span>
+            </div>
+            <div class="tab-chip">
+              Khách
+              <span class="tab-badge">3</span>
+            </div>
+          </div>
+          <!-- Filter chips -->
+          <div class="filter-row">
+            <div class="filter-chip active">Tất cả</div>
+            <div class="filter-chip">Chưa đọc</div>
+            <div class="filter-chip">Hẹn gặp</div>
+            <div class="filter-chip">Tin rác/Bỏ qua</div>
+          </div>
+        </div>
+
+        <!-- Chat List -->
+        <div class="chat-list">
+
+          <!-- Item 1: Unread, no rating button -->
+          <div class="chat-item">
+            <div class="chat-content">
+              <div class="ava-group">
+                <div class="avatar-img">
+                  <img src="https://www.figma.com/api/mcp/asset/93090f88-e34f-4095-96fc-257dfeb299ea" alt="Avatar" />
+                </div>
+                <div class="product-thumb">
+                  <img src="https://www.figma.com/api/mcp/asset/28fdf8d5-89f8-44f3-ba05-4074adde0fbf" alt="Product" />
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="labels-row">
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/ae8f11fe-cdde-4a31-9801-5944f6d9d9fb" alt="" />
+                    Khách mới
+                  </span>
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/b8946b18-5497-4841-a9d9-bbee81e27e28" alt="" />
+                    Hẹn gặp
+                  </span>
+                </div>
+                <div class="user-row">
+                  <span class="username">Tran Thanh An</span>
+                  <span class="unread-badge">12</span>
+                </div>
+                <div class="msg-row">
+                  <span class="msg-text">Nhà này hướng nào thế bạn?</span>
+                  <span class="msg-time">11:30</span>
+                </div>
+              </div>
+            </div>
+            <div class="intent-bar">
+              <span class="intent-label">Tìm:</span>
+              <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+              <div class="intent-arrow">
+                <img src="https://www.figma.com/api/mcp/asset/888d0fd5-d65e-4809-928b-2ea024c7b6b6" alt="" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Read, no rating button -->
+          <div class="chat-item">
+            <div class="chat-content">
+              <div class="ava-group">
+                <div class="avatar-img">
+                  <img src="https://www.figma.com/api/mcp/asset/93090f88-e34f-4095-96fc-257dfeb299ea" alt="Avatar" />
+                </div>
+                <div class="product-thumb">
+                  <img src="https://www.figma.com/api/mcp/asset/28fdf8d5-89f8-44f3-ba05-4074adde0fbf" alt="Product" />
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="labels-row">
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/ae8f11fe-cdde-4a31-9801-5944f6d9d9fb" alt="" />
+                    Khách mới
+                  </span>
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/b8946b18-5497-4841-a9d9-bbee81e27e28" alt="" />
+                    Hẹn gặp
+                  </span>
+                </div>
+                <div class="user-row">
+                  <span class="username">Nguyen Minh Tuan</span>
+                </div>
+                <div class="msg-row">
+                  <span class="msg-text read">Cho hỏi còn hàng không bạn?</span>
+                  <span class="msg-time read">14:20</span>
+                </div>
+              </div>
+            </div>
+            <div class="intent-bar">
+              <span class="intent-label">Tìm:</span>
+              <span class="intent-text">Mua nhà/chung cư, từ 7-10 tỷ, Tp Hồ Chí Minh</span>
+              <div class="intent-arrow">
+                <img src="https://www.figma.com/api/mcp/asset/888d0fd5-d65e-4809-928b-2ea024c7b6b6" alt="" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Official Account, unread, with rating button -->
+          <div class="chat-item">
+            <div class="chat-content">
+              <div class="ava-group official">
+                <div class="avatar-img">
+                  <img src="https://www.figma.com/api/mcp/asset/f6091bbf-4a6e-433a-8705-808fc13a1a09" alt="Official" />
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="user-row">
+                  <span class="username official-name">Chợ Tốt Official Account</span>
+                  <div class="verify-icon">
+                    <img src="https://www.figma.com/api/mcp/asset/ea7297b8-2308-4213-84d1-8789fd08f59e" alt="Verified" />
+                  </div>
+                </div>
+                <div class="msg-row">
+                  <span class="msg-text">Đây là nội dung tin nhắn được từ Chợ Tốt</span>
+                  <span class="msg-time">11:30</span>
+                </div>
+                <div>
+                  <button class="rating-btn">Viết đánh giá</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4: Read, no rating button -->
+          <div class="chat-item">
+            <div class="chat-content">
+              <div class="ava-group">
+                <div class="avatar-img">
+                  <img src="https://www.figma.com/api/mcp/asset/93090f88-e34f-4095-96fc-257dfeb299ea" alt="Avatar" />
+                </div>
+                <div class="product-thumb">
+                  <img src="https://www.figma.com/api/mcp/asset/28fdf8d5-89f8-44f3-ba05-4074adde0fbf" alt="Product" />
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="labels-row">
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/ae8f11fe-cdde-4a31-9801-5944f6d9d9fb" alt="" />
+                    Khách mới
+                  </span>
+                </div>
+                <div class="user-row">
+                  <span class="username">Le Thi Mai</span>
+                </div>
+                <div class="msg-row">
+                  <span class="msg-text read">Bao giờ có thể xem nhà được?</span>
+                  <span class="msg-time read">09:15</span>
+                </div>
+              </div>
+            </div>
+            <div class="intent-bar">
+              <span class="intent-label">Tìm:</span>
+              <span class="intent-text">Thuê căn hộ, 2 phòng ngủ, Quận 1, Tp Hồ Chí Minh</span>
+              <div class="intent-arrow">
+                <img src="https://www.figma.com/api/mcp/asset/888d0fd5-d65e-4809-928b-2ea024c7b6b6" alt="" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5: Read, no rating button -->
+          <div class="chat-item">
+            <div class="chat-content">
+              <div class="ava-group">
+                <div class="avatar-img">
+                  <img src="https://www.figma.com/api/mcp/asset/93090f88-e34f-4095-96fc-257dfeb299ea" alt="Avatar" />
+                </div>
+                <div class="product-thumb">
+                  <img src="https://www.figma.com/api/mcp/asset/28fdf8d5-89f8-44f3-ba05-4074adde0fbf" alt="Product" />
+                </div>
+              </div>
+              <div class="chat-body">
+                <div class="labels-row">
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/ae8f11fe-cdde-4a31-9801-5944f6d9d9fb" alt="" />
+                    Khách mới
+                  </span>
+                  <span class="label-tag">
+                    <img src="https://www.figma.com/api/mcp/asset/b8946b18-5497-4841-a9d9-bbee81e27e28" alt="" />
+                    Hẹn gặp
+                  </span>
+                </div>
+                <div class="user-row">
+                  <span class="username">Pham Van Duc</span>
+                </div>
+                <div class="msg-row">
+                  <span class="msg-text read">Giá có thể thương lượng không ạ?</span>
+                  <span class="msg-time read">Hôm qua</span>
+                </div>
+              </div>
+            </div>
+            <div class="intent-bar">
+              <span class="intent-label">Tìm:</span>
+              <span class="intent-text">Mua nhà riêng, dưới 5 tỷ, Bình Thạnh, Tp Hồ Chí Minh</span>
+              <div class="intent-arrow">
+                <img src="https://www.figma.com/api/mcp/asset/888d0fd5-d65e-4809-928b-2ea024c7b6b6" alt="" />
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /chat-list -->
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+          <div class="bottom-nav-inner">
+
+            <!-- Trang chủ -->
+            <a class="nav-item" href="#">
+              <div class="nav-icon">
+                <img src="https://www.figma.com/api/mcp/asset/d39a6e5e-74ed-4085-906f-97894f7e127c" alt="Home" />
+              </div>
+              <span class="nav-label">Trang chủ</span>
+            </a>
+
+            <!-- Quản lý tin -->
+            <a class="nav-item" href="#">
+              <div class="nav-icon">
+                <img src="https://www.figma.com/api/mcp/asset/c19121d0-d773-42d8-93cd-e265357a10f7" alt="Listings" />
+              </div>
+              <span class="nav-label">Quản lý tin</span>
+            </a>
+
+            <!-- Đăng tin (CTA) -->
+            <div class="nav-cta">
+              <div class="nav-cta-inner">
+                <div class="nav-cta-btn">
+                  <img src="https://www.figma.com/api/mcp/asset/3049d16a-beb3-4c7d-9a5c-6f05a15f54d7" alt="Post" />
+                </div>
+                <span class="nav-cta-label">Đăng tin</span>
+              </div>
+            </div>
+
+            <!-- Liên hệ (active) -->
+            <a class="nav-item" href="#">
+              <div class="nav-icon" style="position:relative;">
+                <img src="https://www.figma.com/api/mcp/asset/4f4ca1c3-b308-4c53-899e-7d3571c9e76e" alt="Chat" style="position:absolute;inset:0;width:100%;height:100%;" />
+              </div>
+              <span class="nav-label active">Liên hệ</span>
+            </a>
+
+            <!-- Tài khoản -->
+            <a class="nav-item" href="#">
+              <div class="nav-icon" style="border-radius:999px;overflow:hidden;">
+                <img src="https://www.figma.com/api/mcp/asset/93090f88-e34f-4095-96fc-257dfeb299ea" alt="Account" style="width:100%;height:100%;object-fit:cover;border-radius:999px;" />
+              </div>
+              <span class="nav-label">Tài khoản</span>
+            </a>
+
+          </div>
+
+          <!-- Chat badge on nav -->
+          <div style="position:absolute;top:4px;left:calc(50% + 30px);background:#F0325E;border:2px solid #fff;border-radius:999px;min-width:16px;padding:0 4px;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;line-height:16px;">12</div>
+        </div>
+
+        <!-- Home Indicator -->
+        <div class="home-indicator">
+          <div class="home-indicator-bar"></div>
+        </div>
+
+      </div><!-- /app -->
+    </div><!-- /phone-frame -->
+  </div><!-- /phone-wrapper -->
+
+</body>
+</html>
