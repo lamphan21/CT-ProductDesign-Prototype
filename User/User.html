@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chợ Tốt Work</title>
+  <title>User — Chợ Tốt Work</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -53,6 +53,30 @@
       z-index: 100;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .back-btn svg { width: 16px; height: 16px; }
+
     .logo {
       display: flex;
       align-items: center;
@@ -60,7 +84,6 @@
       text-decoration: none;
     }
 
-    /* Logo icon */
     .logo-icon {
       width: 34px;
       height: 34px;
@@ -171,106 +194,110 @@
       white-space: nowrap;
     }
 
-    /* ── Cards ───────────────────────────────────────────── */
-    .cards {
+    /* ── Coming Soon Card ────────────────────────────────── */
+    .content {
       max-width: 480px;
       margin: 0 auto;
       padding: 16px 20px 48px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
 
-    .card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    .coming-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px 20px;
-      text-decoration: none;
-      color: var(--text-primary);
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+      border-radius: 20px;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .card:hover {
-      background: var(--bg-hover);
-      border-color: var(--border-brand);
-      transform: translateY(-1px);
-    }
-
-    /* Glow on hover */
-    .card::before {
+    .coming-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at left center, var(--brand-glow) 0%, transparent 65%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
+      background: radial-gradient(ellipse at top center, var(--brand-glow) 0%, transparent 60%);
+      opacity: 0.5;
       pointer-events: none;
     }
 
-    .card:hover::before { opacity: 1; }
-
-    /* Icon */
-    .card-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
+    .coming-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
       background: var(--brand-dim);
       border: 1px solid var(--border-brand);
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 20px;
       flex-shrink: 0;
-      transition: background 0.18s ease;
     }
 
-    .card:hover .card-icon {
-      background: rgba(255,186,0,0.18);
-    }
+    .coming-icon svg { width: 28px; height: 28px; }
 
-    .card-icon svg { width: 22px; height: 22px; }
-
-    /* Body */
-    .card-body { flex: 1; min-width: 0; }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 3px;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text-secondary);
-    }
-
-    /* Arrow */
-    .card-arrow {
-      flex-shrink: 0;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: var(--bg-elevated);
-      display: flex;
+    .status-badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      color: var(--text-tertiary);
-      transition: background 0.18s, color 0.18s;
+      gap: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
     }
 
-    .card:hover .card-arrow {
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       background: var(--brand);
-      color: #000;
     }
 
-    .card-arrow svg { width: 16px; height: 16px; }
+    .coming-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .coming-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 300px;
+      margin-bottom: 28px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+      padding: 9px 18px;
+      border: 1px solid var(--border-brand);
+      border-radius: 100px;
+      background: var(--brand-dim);
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .back-link:hover {
+      background: rgba(255,186,0,0.18);
+      border-color: var(--brand);
+    }
+
+    .back-link svg { width: 14px; height: 14px; }
 
     /* ── Footer ──────────────────────────────────────────── */
     footer {
@@ -284,86 +311,55 @@
 <body>
 
   <header>
-    <a href="index.html" class="logo">
-      <div class="logo-icon">
-        <img src="image/CT-logo2026.png" alt="Chợ Tốt" />
-      </div>
-      <span class="logo-badge">Chợ Tốt Product Designer</span>
-    </a>
-    <div class="header-pill">Workspace</div>
+    <div class="header-left">
+      <a href="../index.html" class="back-btn" aria-label="Back">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">
+          <img src="../image/CT-logo2026.png" alt="Chợ Tốt" />
+        </div>
+        <span class="logo-badge">Chợ Tốt Product Designer</span>
+      </a>
+    </div>
+    <div class="header-pill">User</div>
   </header>
 
   <div class="hero">
-    <div class="hero-eyebrow">Dashboard</div>
-    <h1>Chào mừng<br/>trở lại <em>👋</em></h1>
-    <p>Chọn một khu vực để bắt đầu làm việc.</p>
+    <div class="hero-eyebrow">Section</div>
+    <h1>User</h1>
+    <p>User accounts, profiles &amp; settings.</p>
   </div>
 
   <div class="divider">
     <div class="divider-line"></div>
-    <span class="divider-label">Sections</span>
+    <span class="divider-label">Status</span>
     <div class="divider-line"></div>
   </div>
 
-  <div class="cards">
-
-    <!-- Platform -->
-    <a href="Platform/Platform.html" class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="3" width="20" height="13" rx="2" stroke="#FFBA00" stroke-width="1.8"/>
-          <path d="M8 21h8M12 16v5" stroke="#FFBA00" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Platform</div>
-        <div class="card-desc">Core platform features &amp; management</div>
-      </div>
-      <div class="card-arrow">
-        <svg viewBox="0 0 16 16" fill="none">
-          <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </a>
-
-    <!-- User -->
-    <a href="User/User.html" class="card">
-      <div class="card-icon">
+  <div class="content">
+    <div class="coming-card">
+      <div class="coming-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" stroke="#FFBA00" stroke-width="1.8"/>
           <path d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke="#FFBA00" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="card-body">
-        <div class="card-title">User</div>
-        <div class="card-desc">User accounts, profiles &amp; settings</div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        In Progress
       </div>
-      <div class="card-arrow">
+      <div class="coming-title">Coming Soon</div>
+      <p class="coming-desc">The User section is currently under construction. Check back soon for updates.</p>
+      <a href="../index.html" class="back-link">
         <svg viewBox="0 0 16 16" fill="none">
-          <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 12l-4-4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </div>
-    </a>
-
-    <!-- Buyer -->
-    <a href="Buyer/Buyer.html" class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#FFBA00" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M3 6h18M16 10a4 4 0 01-8 0" stroke="#FFBA00" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Buyer</div>
-        <div class="card-desc">Buyer experience &amp; purchase flows</div>
-      </div>
-      <div class="card-arrow">
-        <svg viewBox="0 0 16 16" fill="none">
-          <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </a>
-
+        Back to Home
+      </a>
+    </div>
   </div>
 
   <footer>v3.0 CHOTOT Design System</footer>
