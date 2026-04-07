@@ -223,13 +223,8 @@
       padding: 16px 20px;
       background: var(--bg-elevated);
       border-bottom: 1px solid var(--border);
-      text-decoration: none;
       color: var(--text-primary);
-      transition: background 0.15s;
-    }
-
-    .section-header:hover {
-      background: var(--bg-hover);
+      cursor: default;
     }
 
     .section-header-icon {
@@ -369,6 +364,19 @@
 
     .child-arrow svg { width: 14px; height: 14px; }
 
+    .coming-soon-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 2px 8px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
     /* ── Footer ──────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -414,7 +422,7 @@
     <!-- ── Chat ───────────────────────────────────────────── -->
     <div class="section-group">
 
-      <a href="Chat.html" class="section-header">
+      <div class="section-header">
         <div class="section-header-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#FFBA00" stroke-width="1.8" stroke-linejoin="round"/>
@@ -425,12 +433,12 @@
           <div class="section-header-sub">Messaging &amp; conversation experience</div>
         </div>
         <span class="section-count">2 views</span>
-      </a>
+      </div>
 
       <div class="section-cards">
 
         <!-- Mobile -->
-        <a href="Chat.html#mobile" class="child-card">
+        <a href="Chat.html" class="child-card">
           <div class="child-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="5" y="2" width="14" height="20" rx="3" stroke="#FFBA00" stroke-width="1.8"/>
@@ -441,15 +449,11 @@
             <div class="child-title">Mobile</div>
             <div class="child-desc">Chat on mobile devices</div>
           </div>
-          <div class="child-arrow">
-            <svg viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <span class="coming-soon-tag">Coming Soon</span>
         </a>
 
         <!-- Desktop -->
-        <a href="Chat.html#desktop" class="child-card">
+        <a href="Chat.html" class="child-card">
           <div class="child-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="3" width="20" height="13" rx="2" stroke="#FFBA00" stroke-width="1.8"/>
@@ -460,11 +464,7 @@
             <div class="child-title">Desktop</div>
             <div class="child-desc">Chat on desktop browsers</div>
           </div>
-          <div class="child-arrow">
-            <svg viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <span class="coming-soon-tag">Coming Soon</span>
         </a>
 
       </div>
@@ -473,7 +473,7 @@
     <!-- ── Back-Office ────────────────────────────────────── -->
     <div class="section-group">
 
-      <a href="Back-Office.html" class="section-header">
+      <div class="section-header">
         <div class="section-header-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="3" width="20" height="13" rx="2" stroke="#FFBA00" stroke-width="1.8"/>
@@ -486,12 +486,12 @@
           <div class="section-header-sub">Admin tools &amp; internal management</div>
         </div>
         <span class="section-count">2 views</span>
-      </a>
+      </div>
 
       <div class="section-cards">
 
         <!-- Mobile -->
-        <a href="Back-Office.html#mobile" class="child-card">
+        <a href="Back-Office.html" class="child-card">
           <div class="child-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="5" y="2" width="14" height="20" rx="3" stroke="#FFBA00" stroke-width="1.8"/>
@@ -502,15 +502,11 @@
             <div class="child-title">Mobile</div>
             <div class="child-desc">Back-Office on mobile devices</div>
           </div>
-          <div class="child-arrow">
-            <svg viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <span class="coming-soon-tag">Coming Soon</span>
         </a>
 
         <!-- Desktop -->
-        <a href="Back-Office.html#desktop" class="child-card">
+        <a href="Back-Office.html" class="child-card">
           <div class="child-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="3" width="20" height="13" rx="2" stroke="#FFBA00" stroke-width="1.8"/>
@@ -521,11 +517,7 @@
             <div class="child-title">Desktop</div>
             <div class="child-desc">Back-Office on desktop browsers</div>
           </div>
-          <div class="child-arrow">
-            <svg viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <span class="coming-soon-tag">Coming Soon</span>
         </a>
 
       </div>
