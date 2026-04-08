@@ -88,7 +88,7 @@
       flex: 1;
       overflow-y: auto;
       margin-top: 161px; /* 53px header + 108px tabs */
-      margin-bottom: 94px; /* bottom-nav 73 + home-indicator 21 */
+      margin-bottom: 73px; /* bottom-nav height */
     }
 
     /* ── Tab Type ─────────────────────────────────────────── */
@@ -151,11 +151,26 @@
     }
 
     /* Filter chips row */
+    .filter-row-wrap {
+      position: relative;
+      overflow: hidden;
+      margin: 0 -16px;
+      padding: 0 16px;
+    }
+    .filter-row-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 74px;
+      background: linear-gradient(to right, rgba(255,255,255,0), #FFFFFF);
+      pointer-events: none;
+    }
     .filter-row {
       display: flex;
       gap: 8px;
       overflow-x: auto;
       scrollbar-width: none;
+      padding-right: 74px;
     }
     .filter-row::-webkit-scrollbar { display: none; }
 
@@ -696,7 +711,7 @@
           <img src="https://www.figma.com/api/mcp/asset/b5ebbb82-c68c-43bf-a3a6-0efb8be52d26" alt="Search" />
         </div>
         <div class="app-header-btn">
-          <img src="https://www.figma.com/api/mcp/asset/e6fbd0af-ebd8-47b5-85b4-343ef5947b9e" alt="More" />
+          <img src="../Asset/Morevertical-outline.svg" alt="More" style="width:24px;height:24px;" />
         </div>
       </div>
     </div>
@@ -715,17 +730,21 @@
       </div>
     </div>
     <!-- Filter: Tin nhắn -->
-    <div class="filter-row" id="filter-tin-nhan">
-      <div class="filter-chip active">Tất cả</div>
-      <div class="filter-chip">Chưa đọc</div>
-      <div class="filter-chip">Hẹn gặp</div>
-      <div class="filter-chip">Tin rác/Bỏ qua</div>
+    <div class="filter-row-wrap" id="filter-tin-nhan">
+      <div class="filter-row">
+        <div class="filter-chip active">Tất cả</div>
+        <div class="filter-chip">Chưa đọc</div>
+        <div class="filter-chip">Hẹn gặp</div>
+        <div class="filter-chip">Tin rác/Bỏ qua</div>
+      </div>
     </div>
     <!-- Filter: Khách -->
-    <div class="filter-row" id="filter-khach" style="display:none;">
-      <div class="filter-chip-dropdown">
-        Tin đăng
-        <img src="https://www.figma.com/api/mcp/asset/ea573066-2a69-42da-9f8d-9676be1b45a4" alt="" />
+    <div class="filter-row-wrap" id="filter-khach" style="display:none;">
+      <div class="filter-row">
+        <div class="filter-chip-dropdown">
+          Tin đăng
+          <img src="https://www.figma.com/api/mcp/asset/ea573066-2a69-42da-9f8d-9676be1b45a4" alt="" />
+        </div>
       </div>
     </div>
   </div>
@@ -835,9 +854,6 @@
             <div class="msg-row">
               <span class="msg-text">Đây là nội dung tin nhắn được từ Chợ Tốt</span>
               <span class="msg-time">11:30</span>
-            </div>
-            <div>
-              <button class="rating-btn">Viết đánh giá</button>
             </div>
           </div>
         </div>
@@ -1233,7 +1249,7 @@
         </div>
       </div>
 
-      <!-- Item 15: Read, no intent -->
+      <!-- Item 15: Read, no intent, Tin rác -->
       <div class="chat-item">
         <div class="chat-content">
           <div class="ava-group">
@@ -1247,8 +1263,8 @@
           <div class="chat-body">
             <div class="labels-row">
               <span class="label-tag">
-                <img src="https://www.figma.com/api/mcp/asset/ae8f11fe-cdde-4a31-9801-5944f6d9d9fb" alt="" />
-                Khách mới
+                <img src="https://www.figma.com/api/mcp/asset/d51dcb16-93ac-4532-b607-a6834bc15034" alt="" />
+                Tin rác/Bỏ qua
               </span>
             </div>
             <div class="user-row">
@@ -1465,10 +1481,6 @@
 
     </div>
 
-    <!-- Home Indicator -->
-    <div class="home-indicator">
-      <div class="home-indicator-bar"></div>
-    </div>
   </div>
 
   <script>
@@ -1480,11 +1492,53 @@
       tabsSection.classList.toggle('scrolled', content.scrollTop > 0);
     });
 
-    // Chat item → Chat Room
+    // Chat item → Chat Room (pass context via localStorage)
     document.querySelector('.chat-list').addEventListener('click', e => {
-      if (e.target.closest('.chat-item')) {
+      const item = e.target.closest('.chat-item');
+      if (item) {
+        const name    = item.querySelector('.username')?.textContent.trim() || '';
+        const avatar  = item.querySelector('.avatar-img img')?.src || '';
+        const product = item.querySelector('.product-thumb img')?.src || '';
+        localStorage.setItem('chatRoom', JSON.stringify({ name, avatar, product }));
         window.location.href = 'Chat-Room-Mobile.html';
       }
+    });
+
+    // Auto-derive data attributes from DOM labels
+    document.querySelectorAll('.chat-item').forEach(item => {
+      const labels = [];
+      item.querySelectorAll('.label-tag').forEach(tag => {
+        const t = tag.textContent.trim();
+        if (t.includes('Khách mới'))       labels.push('khach-moi');
+        if (t.includes('Hẹn gặp'))         labels.push('hen-gap');
+        if (t.includes('Tin rác') || t.includes('Bỏ qua')) labels.push('tin-rac');
+        if (t.includes('Đang trả giá'))    labels.push('dang-tra-gia');
+        if (t.includes('Đã chốt'))         labels.push('da-chot');
+      });
+      item.dataset.labels = labels.join(',');
+      item.dataset.unread = item.querySelector('.unread-badge') ? 'true' : 'false';
+    });
+
+    // Filter chips logic (Tin nhắn tab)
+    function applyFilter(filterText) {
+      document.querySelectorAll('.chat-item').forEach(item => {
+        const labels = item.dataset.labels || '';
+        const unread = item.dataset.unread === 'true';
+        let show = true;
+        if (filterText === 'Chưa đọc')         show = unread;
+        else if (filterText === 'Hẹn gặp')     show = labels.includes('hen-gap');
+        else if (filterText === 'Tin rác/Bỏ qua') show = labels.includes('tin-rac');
+        item.style.display = show ? '' : 'none';
+      });
+    }
+
+    document.querySelectorAll('#filter-tin-nhan .filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('#filter-tin-nhan .filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.textContent.trim());
+        content.scrollTop = 0;
+      });
     });
 
     // Tab switching
@@ -1504,6 +1558,10 @@
           intentList.classList.remove('active');
           filterTinNhan.style.display = '';
           filterKhach.style.display = 'none';
+          // Reset filter to Tất cả
+          document.querySelectorAll('#filter-tin-nhan .filter-chip').forEach(c => c.classList.remove('active'));
+          document.querySelector('#filter-tin-nhan .filter-chip').classList.add('active');
+          applyFilter('Tất cả');
         } else {
           chatList.style.display = 'none';
           intentList.classList.add('active');
